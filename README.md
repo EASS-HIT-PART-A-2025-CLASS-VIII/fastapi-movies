@@ -65,8 +65,8 @@ These commands make it easy to populate, inspect, or clear your database during 
 
 ## 🧪 Tests
 
-This project includes simple **pytest** tests to verify that the main API routes work as expected.  
-The tests use **FastAPI’s** built-in `TestClient` to simulate real HTTP requests in memory — no server startup required.
+This project includes **pytest** tests to verify that all main API routes work as expected.  
+The tests use **FastAPI’s** built-in `TestClient` to simulate real HTTP requests entirely in memory — no server startup required.
 
 Run all tests with:
 
@@ -75,8 +75,12 @@ uv run pytest -v
 ```
 
 ✅ **What’s tested:**
+
 - `POST /movies` — verifies that a new movie can be created successfully  
 - `GET /movies` — checks that the list of movies is returned correctly  
+- `PUT /movies/{id}` — ensures that an existing movie can be updated  
+- `DELETE /movies/{id}` — confirms that a movie can be deleted successfully  
 
-Each test sends real requests to the API and asserts that the response codes and data match expectations.  
-You can view detailed results in the terminal after running the command.
+Each test sends real requests to the API and asserts that the response status codes and returned data match expectations.  
+Detailed results are displayed directly in the terminal after running the command.
+
