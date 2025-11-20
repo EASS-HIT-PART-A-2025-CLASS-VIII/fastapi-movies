@@ -1,4 +1,5 @@
 import csv
+import os
 import typer
 from sqlmodel import Session, select
 from .database import engine, create_db_and_tables
@@ -7,27 +8,28 @@ from .models import Movie
 app = typer.Typer(help="🎬 Manage the Movie Catalogue database")
 
 @app.command()
-def seed(csv_path: str = "data/movies.csv"):
+def seed(csv_path: str = "app/data/movies.csv"):
     """Seed the database with movies from a CSV file."""
     create_db_and_tables()
 
-    with Session(engine) as session:
-        try:
-            with open(csv_path, newline='', encoding='utf-8') as csvfile:
-                reader = csv.DictReader(csvfile)
-                movies = [
-                    Movie(
-                        title=row["title"],
-                        director=row["director"],
-                        year=int(row["year"]),
-                        rating=float(row["rating"]) if row.get("rating") else None
-                    )
-                    for row in reader
-                ]
-        except FileNotFoundError:
-            typer.echo(f"CSV file not found: {csv_path}")
-            raise typer.Exit(code=1)
+    # Resolve CSV path relative to backend/
+    if not os.path.exists(csv_path):
+        typer.echo(f"CSV file not found: {csv_path}")
+        raise typer.Exit(code=1)
 
+    with open(csv_path, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        movies = [
+            Movie(
+                title=row["title"],
+                director=row["director"],
+                year=int(row["year"]),
+                rating=float(row["rating"]) if row.get("rating") else None,
+            )
+            for row in reader
+        ]
+
+    with Session(engine) as session:
         session.add_all(movies)
         session.commit()
         typer.echo(f"Seeded database with {len(movies)} movies from {csv_path}")
