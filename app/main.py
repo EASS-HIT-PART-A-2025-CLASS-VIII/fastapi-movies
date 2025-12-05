@@ -4,17 +4,12 @@ from app.routes.movies import router as movies_router
 from contextlib import asynccontextmanager
 
 
-app = FastAPI(title="🎬 Movie Catalogue API")
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    create_db_and_tables()  # Or connect to external services
+    create_db_and_tables()
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, title="🎬 Movie Catalogue API")
 
-
-# Include movie router
 app.include_router(movies_router)
