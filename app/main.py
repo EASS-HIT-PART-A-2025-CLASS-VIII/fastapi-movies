@@ -6,10 +6,12 @@ from contextlib import asynccontextmanager
 
 app = FastAPI(title="🎬 Movie Catalogue API")
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    create_db_and_tables() # Or connect to external services
+    create_db_and_tables()  # Or connect to external services
     yield
+
 
 app = FastAPI(lifespan=lifespan)
 
