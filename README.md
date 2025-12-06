@@ -1,85 +1,106 @@
-# 🎬 FastAPI Movies Monorepo
+# 🎬 FastAPI Movie Catalogue
 
-A full-stack movie catalogue application built with FastAPI and Streamlit.
-It provides a lightweight API backend for managing movies and a simple web dashboard for interacting with the data locally or in Docker.
+A simple **CRUD API** built with **FastAPI**, **SQLModel**, and **SQLite**.  
+The API allows users to list, create, update, and delete movies locally or inside a Docker container.
 
-## 🧭 Overview
+---
 
-| Component | Description |
-|------------|-------------|
-| **Backend** | FastAPI + SQLModel + SQLite – REST API for creating, reading, updating, and deleting movies |
-| **Frontend** | Streamlit – interactive dashboard to browse, add, delete, and export movies |
-| **Database** | Lightweight SQLite database stored locally at `backend/app/data/movies.db` |
-| **Deployment** | Docker Compose configuration running backend and frontend as connected services |
-| **Testing** | Pytest suite validating API endpoints and database logic |
-| **CLI Tools** | Typer-based commands for database seeding, listing, and exporting movies |
+## 🧭 Project Overview
 
+| Component | Description                                                                       |
+|------------|-----------------------------------------------------------------------------------|
+| **Framework** | [FastAPI](https://fastapi.tiangolo.com/) - high-performance Python web framework  |
+| **ORM Layer** | [SQLModel](https://sqlmodel.tiangolo.com/) - combines SQLAlchemy + Pydantic       |
+| **Database** | [SQLite](https://sqlite.org/) - light local SQL DB                                |
+| **Environment Tool** | [uv](https://github.com/astral-sh/uv) - fast Python package & environment manager |
+| **Testing** | [pytest](https://docs.pytest.org/) + FastAPI TestClient                           |
+| **CLI Utility** | [Typer](https://typer.tiangolo.com/) - for database seeding and listing movies    |
 
+---
 
+## 🚀 Run Locally
 
+### 1️⃣ Create a virtual environment
 
-## 🐳 Run with Docker Compose
-
-To start both backend (FastAPI) and frontend (Streamlit) containers together:
-
+####   Make sure you are in fastapi-movies directory
 ```bash
-docker compose up --build
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
+uv run uvicorn app.main:app --reload
 ```
-Then open:
+---
 
-Backend → http://localhost:8000/movies
+## 🐳 Run with Docker
 
-Frontend → http://localhost:8501
+####   - Make sure you are in fastapi-movies directory
 
-### 🧰 Common Commands
+
+### 1️⃣ Build the Docker image
+
 ```bash
+docker build -t fastapi-movies .
+````
+### 2️⃣ Run the container
+```bash
+docker run --name fastapi-movies-container -p 8000:8000 fastapi-movies
+````
+### 3️⃣ Open:
+👉 http://localhost:8000/movies
 
-docker compose down             # Stop all running containers
-docker compose ps               # List active containers
-docker logs backend             # View FastAPI logs
-docker logs frontend            # View Streamlit logs
+
+## 🧩 Endpoints
+
+| Method | Path | Description |
+|--------|------|--------------|
+| `GET` | `/movies` | Retrieve all movies |
+| `POST` | `/movies` | Add a new movie |
+| `PUT` | `/movies/{id}` | Update an existing movie |
+| `DELETE` | `/movies/{id}` | Delete a movie |
+
+Example `POST` request (using `curl`):
+
+```bash
+curl -X POST "http://127.0.0.1:8000/movies" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Inception", "director": "Christopher Nolan", "year": 2010, "rating": 8.8}'
 ```
-## 🧩 Features
 
-- List all movies in a table
+## 🌱 Database Management Commands (Typer CLI)
 
-- Add new movies (validated fields)
-
-- Delete movies by ID
-
-- Export movies to CSV
-
-- Caching and refresh in Streamlit
-
-- Fully functional inside Docker Compose
-
-## 🧪 Testing
-
-To run backend tests:
+Use the built-in **Typer CLI** to manage your local SQLite database.  
+Run any of these commands with:
 
 ```bash
-cd backend
+uv run python -m app.cli <command>
+```
+
+- 🎬 **`seed`** - Creates the tables (if needed) and inserts a few sample movies for quick testing
+
+- 📜 **`list`** - Displays all movies currently stored in the database in a simple text format.
+
+- 🧹 **`reset`** - Deletes all movies from the database while keeping the schema intact, letting you start from a clean slate.
+
+These commands make it easy to populate, inspect, or clear your database during development without manually opening SQLite.
+
+## 🧪 Tests
+
+This project includes **pytest** tests to verify that all main API routes work as expected.  
+The tests use **FastAPI’s** built-in `TestClient` to simulate real HTTP requests entirely in memory - no server startup required.
+
+Run all tests with:
+
+```bash
 uv run pytest -v
 ```
 
-## 📚 Technologies
+✅ **What’s tested:**
 
-- FastAPI
+- `POST /movies` - verifies that a new movie can be created successfully  
+- `GET /movies` - checks that the list of movies is returned correctly  
+- `PUT /movies/{id}` - ensures that an existing movie can be updated  
+- `DELETE /movies/{id}` - confirms that a movie can be deleted successfully  
 
-- SQLModel
+Each test sends real requests to the API and asserts that the response status codes and returned data match expectations.  
+Detailed results are displayed directly in the terminal after running the command.
 
-- Streamlit
-
-- Typer
-
-- Docker Compose
-
-- pytest
-
-- uv
-
-### 🧠 Notes
-
-- MOVIE_API_BASE_URL is automatically configured inside Docker Compose (http://backend:8000).
-
-- The project intentionally stays small and local (no external DB or cloud hosting).

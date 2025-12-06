@@ -1,14 +1,13 @@
-version: "3.9"
-
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: fastapi-movies-backend
     ports:
       - "8000:8000"
     volumes:
       - ./backend/app/data:/app/app/data
-    command: uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
     networks:
       - movies_net
 

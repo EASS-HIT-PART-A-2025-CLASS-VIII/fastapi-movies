@@ -1,27 +1,26 @@
 from __future__ import annotations
 from functools import lru_cache
-from typing import Any, Optional
-
+from typing import Any
 import httpx
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import dotenv
+
+dotenv.load_dotenv()
 
 
-# ───────────────────────────────
-# Settings: loads .env or defaults
-# ───────────────────────────────
 class UISettings(BaseSettings):
-    api_base_url: str = "http://backend:8000"
+    api_base_url: str = "http://127.0.0.1:8000"
     trace_id: str = "ui-streamlit"
 
-    model_config = SettingsConfigDict(env_prefix="MOVIE_", env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_prefix="MOVIE_", env_file=".env", extra="ignore"
+    )
 
 
 settings = UISettings()
 
 
-# ───────────────────────────────
 # Shared HTTP client
-# ───────────────────────────────
 @lru_cache(maxsize=1)
 def _client() -> httpx.Client:
     """Create a single persistent client for performance and header reuse."""
@@ -32,14 +31,13 @@ def _client() -> httpx.Client:
     )
 
 
-# ───────────────────────────────
 # API functions
-# ───────────────────────────────
 def list_movies() -> list[dict[str, Any]]:
     """Fetch all movies from the backend."""
     response = _client().get("/movies")
     response.raise_for_status()
     return response.json()
+
 
 def create_movie(title: str, director: str, year: int, rating: float) -> dict[str, Any]:
     """Add a new movie."""
