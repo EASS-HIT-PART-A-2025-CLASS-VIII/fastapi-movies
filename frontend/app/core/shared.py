@@ -3,13 +3,11 @@ import pandas as pd
 import streamlit as st
 from pathlib import Path
 
-from app.core.client import  list_movies
+from app.core.client import list_movies
 
 
-# CSS loader (safe, absolute path, works everywhere)
 def load_css(path: str | Path = None) -> None:
     if path is None:
-        # Stylesheet always lives next to this shared.py file
         path = Path(__file__).parent / "styles.css"
 
     css_path = Path(path)
@@ -20,14 +18,11 @@ def load_css(path: str | Path = None) -> None:
     st.markdown(f"<style>{css_text}</style>", unsafe_allow_html=True)
 
 
-# Cached movie fetch
 @st.cache_data(ttl=30)
 def cached_movies() -> list[dict]:
     return list_movies()
 
 
-
-# Dataframe builder
 def build_dataframe(raw_movies: list[dict]) -> pd.DataFrame:
     if not raw_movies:
         return pd.DataFrame(columns=["id", "title", "director", "year", "rating"])
@@ -55,28 +50,6 @@ def get_movies_df() -> pd.DataFrame:
         st.stop()
 
 
-
-# Sidebar active navigation badge
-
-def sidebar_nav(current_page: str):
-    st.sidebar.markdown(
-        f"""
-        <style>
-        .nav-active {{
-            background-color: #1e293b;
-            font-weight: 600;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            color: white;
-        }}
-        </style>
-        <div class="nav-active">{current_page}</div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-
 def render_filters(movies_df: pd.DataFrame):
     """Render rating and year filters from sidebar and return (rating_filter, year_range)."""
 
@@ -92,7 +65,6 @@ def render_filters(movies_df: pd.DataFrame):
         step=0.5,
     )
 
-    # Year filter
     year_min, year_max = int(movies_df["year"].min()), int(movies_df["year"].max())
 
     if year_min == year_max:
@@ -108,7 +80,6 @@ def render_filters(movies_df: pd.DataFrame):
 
     st.sidebar.caption(" ")
 
-    # Refresh button
     if st.sidebar.button("🔄 Refresh data", use_container_width=True):
         cached_movies.clear()
         st.rerun()
@@ -121,25 +92,35 @@ def render_metrics(df: pd.DataFrame) -> None:
         st.info("No movies yet. Add one from the Manage tab to see analytics.")
         return
 
-    # Inject CSS for small caption text
-    st.markdown("""
-    <style>
-        .small-caption {
-            font-size: 0.75rem !important;
-            margin-top: -10px !important;
-            opacity: 0.8;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        """
+        <style>
+            /* This targets the large value (e.g., '123' or '7.8 / 10') */
+            div[data-testid="stMetricValue"] {
+                font-size: 24px;  /* Adjust this size (e.g., 20px, 24px, 28px) */
+                line-height: 1.2;
+            }
+
+            /* Your original CSS for the small caption (kept for the director overflow) */
+            .small-caption {
+                font-size: 0.75rem !important;
+                margin-top: -10px !important;
+                opacity: 0.8;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
     cols = st.columns(4)
 
     avg_rating = df["rating"].mean()
     newest_year = df["year"].max()
     oldest_year = df["year"].min()
-    top_director = df["director"].mode().iloc[0] if df["director"].notna().any() else "N/A"
+    top_director = (
+        df["director"].mode().iloc[0] if df["director"].notna().any() else "N/A"
+    )
 
-    # Truncate long names with ellipsis
     max_len = 18
     if isinstance(top_director, str) and len(top_director) > max_len:
         cutoff = top_director.rfind(" ", 0, max_len - 1)
@@ -154,9 +135,10 @@ def render_metrics(df: pd.DataFrame) -> None:
     cols[2].metric("📅 Year Span", f"{oldest_year} → {newest_year}")
     cols[3].metric("🎬 Top Director", top_display)
 
-    # smaller caption under top director
     if top_display != top_director:
-        cols[3].markdown(f"<div class='small-caption'>{top_director}</div>", unsafe_allow_html=True)
+        cols[3].markdown(
+            f"<div class='small-caption'>{top_director}</div>", unsafe_allow_html=True
+        )
 
 
 @st.cache_resource
@@ -175,16 +157,12 @@ def _register_altair_theme():
     alt.themes.enable("streamlit_dark")
 
 
-
-# Charts (rating distribution, year frequency, top directors)
-
 def render_charts(df: pd.DataFrame) -> None:
     if df.empty:
         return
 
     _register_altair_theme()
 
-    # Rating distribution
     rating_chart = (
         alt.Chart(df)
         .mark_bar(color="#f97316")
@@ -196,7 +174,6 @@ def render_charts(df: pd.DataFrame) -> None:
         .properties(height=320, title="Rating Distribution")
     )
 
-    # Year frequency area chart
     year_chart = (
         alt.Chart(df)
         .mark_area(
@@ -220,7 +197,6 @@ def render_charts(df: pd.DataFrame) -> None:
         .properties(height=320, title="Movies by Year")
     )
 
-    # Directors frequency bar chart
     director_chart = (
         alt.Chart(df)
         .mark_bar(color="#38bdf8")

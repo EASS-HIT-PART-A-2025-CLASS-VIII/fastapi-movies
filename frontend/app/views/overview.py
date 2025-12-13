@@ -1,6 +1,12 @@
 def main():
     import streamlit as st
-    from app.core.shared import load_css, get_movies_df, render_filters, render_metrics, render_charts
+    from app.core.shared import (
+        load_css,
+        get_movies_df,
+        render_filters,
+        render_metrics,
+        render_charts,
+    )
 
     load_css()
 
@@ -8,7 +14,6 @@ def main():
 
     rating_filter, year_range = render_filters(movies_df)
 
-    # Apply filters
     filtered_df = movies_df.copy()
     if not filtered_df.empty:
         filtered_df = filtered_df[
@@ -39,4 +44,3 @@ def main():
                 "rating": st.column_config.NumberColumn("Rating", format="%.1f"),
             },
         )
-

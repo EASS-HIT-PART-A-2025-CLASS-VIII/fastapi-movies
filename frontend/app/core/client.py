@@ -2,14 +2,17 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Any
 import httpx
+from pydantic import ValidationError
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import sys
 import dotenv
+
 
 dotenv.load_dotenv()
 
 
 class UISettings(BaseSettings):
-    api_base_url: str = "http://127.0.0.1:8000"
+    api_base_url: str
     trace_id: str = "ui-streamlit"
 
     model_config = SettingsConfigDict(
@@ -17,10 +20,18 @@ class UISettings(BaseSettings):
     )
 
 
-settings = UISettings()
+try:
+    settings = UISettings()
+except ValidationError as e:
+    print("FATAL ERROR: Configuration failed to load.")
+    print(
+        "The required environment variable MOVIE_API_BASE_URL (or MOVIE_API_BASE_URL in .env) must be set."
+    )
+    print(e)
+    # Exits the Streamlit application gracefully if configuration fails
+    sys.exit(1)
 
 
-# Shared HTTP client
 @lru_cache(maxsize=1)
 def _client() -> httpx.Client:
     """Create a single persistent client for performance and header reuse."""
