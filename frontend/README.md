@@ -26,16 +26,10 @@ Access it at [http://localhost:8501](http://localhost:8501)
 
 ## 🧩 Features
 
-- 📋 List all movies from the FastAPI backend  
+- 📋 List all movies from the FastAPI backend
 - ➕ Add new movies with input validation (rating between 0–10)  
 - 🗑️ Delete existing movies  
-- 🔄 Refresh cached data  
-- 💾 Export movies to CSV (`movies_export.csv` in the frontend folder)
+- 🔄 View graphs of movie ratings/years
+- 💾 Export movies to CSV
 
 ---
-
-## ⚙️ Notes
-
-- The dashboard caches data for 30 seconds (`st.cache_data`).  
-- Invalid form inputs (like rating > 10) trigger inline error messages and prevent invalid API calls.  
-- No authentication is required.  
