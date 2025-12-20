@@ -38,3 +38,7 @@ typing-extensions==4.15.0
 typing-inspection==0.4.2
 uvicorn==0.38.0
 virtualenv==20.35.4
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.4.0
+python-multipart==0.0.20
+python-dotenv==1.0.1
