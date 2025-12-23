@@ -26,10 +26,14 @@ services:
       context: ./backend
     container_name: spendwise-worker
     command: uv run python -m app.worker
+    environment:
+      - PYTHONPATH=/app
     env_file: .env
     depends_on:
       - redis
       - backend
+    volumes:
+      - ./backend/app/data:/app/app/data
     networks:
       - spendwise_net
 
@@ -40,7 +44,7 @@ services:
         - VITE_API_URL=${VITE_API_URL}
     container_name: spendwise-frontend
     ports:
-      - "5173:5173"
+      - "5173:80"
     depends_on:
       - backend
     networks:

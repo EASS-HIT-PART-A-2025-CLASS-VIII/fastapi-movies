@@ -6,9 +6,9 @@ from app.database import create_db_and_tables
 from app.routes import auth, transactions, ai
 from contextlib import asynccontextmanager
 
-# Simple, clean path at the root of your backend folder
-DATA_DIR = "data"
-os.makedirs(DATA_DIR, exist_ok=True)
+# Define the exact path where the worker is saving files
+REPORTS_DIR = os.path.join("app", "data", "reports")
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
 
 @asynccontextmanager
@@ -27,8 +27,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Use the simplified path
-app.mount("/reports-files", StaticFiles(directory=DATA_DIR), name="data")
+# Mount the specific reports folder
+app.mount("/reports-files", StaticFiles(directory=REPORTS_DIR), name="reports")
 
 app.include_router(auth.router)
 app.include_router(transactions.router)

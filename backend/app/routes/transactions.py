@@ -17,6 +17,8 @@ from app.core.deps import get_current_user
 
 router = APIRouter(prefix="/transactions", tags=["Transactions"])
 
+REPORT_DIR = os.path.join("app", "data", "reports")
+
 
 @router.get("/stats/detailed")
 def get_detailed_stats(
@@ -76,14 +78,22 @@ def delete_transaction(
 
 @router.post("/report")
 async def trigger_report(current_user: User = Depends(get_current_user)):
+    # Use 'redis' as the host because that is the service name in docker-compose
     redis = await create_pool(RedisSettings(host="redis", port=6379))
-    await redis.enqueue_job("generate_monthly_report", current_user.id)
-    return {"message": "Report generation started in background"}
+    await redis.enqueue_job("generate_monthly_report", user_id=current_user.id)
+    print(
+        f"!!! JOB ENQUEUED FOR USER {current_user.id} !!!"
+    )  # Check backend logs for this
+    return {"message": "Report generation started"}
 
 
 @router.get("/report/list")
-def list_reports(current_user: User = Depends(get_current_user)):
-    path = "data"
-    if not os.path.exists(path):
+async def list_reports():
+    if not os.path.exists(REPORT_DIR):
         return []
-    return [f for f in os.listdir(path) if f.endswith(".pdf")]
+    files = [f for f in os.listdir(REPORT_DIR) if f.endswith(".pdf")]
+    # Sort newest first
+    files.sort(
+        key=lambda x: os.path.getmtime(os.path.join(REPORT_DIR, x)), reverse=True
+    )
+    return files
