@@ -19,7 +19,7 @@ export const Login: React.FC = () => {
       formData.append('password', password);
 
       const response = await apiClient.post('/auth/token', formData, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
 
       if (response.data.access_token) {
@@ -70,14 +70,24 @@ export const Login: React.FC = () => {
             />
           </div>
 
-          {error && <p className="text-[#f85149] text-sm text-center font-medium bg-[#2d1616] p-2 rounded-lg border border-[#f85149]/20">{error}</p>}
+          {error && (
+            <p className="text-[#f85149] text-sm text-center font-medium bg-[#2d1616] p-2 rounded-lg border border-[#f85149]/20">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-[#238636] hover:bg-[#2ea043] text-white font-bold h-12 rounded-xl mt-4 transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
           >
-            {loading ? "Authenticating..." : <><LogIn size={18} /> Sign In</>}
+            {loading ? (
+              'Authenticating...'
+            ) : (
+              <>
+                <LogIn size={18} /> Sign In
+              </>
+            )}
           </button>
         </form>
       </div>

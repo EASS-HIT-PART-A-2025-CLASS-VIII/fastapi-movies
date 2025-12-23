@@ -11,7 +11,7 @@ export const Reports: React.FC = () => {
       const res = await apiClient.get('/transactions/report/list');
       setFiles(res.data);
     } catch (err) {
-      console.error("Failed to load reports");
+      console.error('Failed to load reports');
     }
   };
 
@@ -23,8 +23,11 @@ export const Reports: React.FC = () => {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-white">Reports History</h1>
       <div className="grid gap-4">
-        {files.map(file => (
-          <div key={file} className="bg-[#161b22] border border-[#30363d] p-4 rounded-xl flex justify-between items-center">
+        {files.map((file) => (
+          <div
+            key={file}
+            className="bg-[#161b22] border border-[#30363d] p-4 rounded-xl flex justify-between items-center"
+          >
             <div className="flex items-center gap-3">
               <FileText className="text-[#8b949e]" size={20} />
               <span className="text-white">{file}</span>

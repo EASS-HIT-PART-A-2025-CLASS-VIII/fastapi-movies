@@ -31,7 +31,7 @@ services:
     command: uv run python -m app.worker
     environment:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}  # <--- Added here
+      - OPENAI_API_KEY=${OPENAI_API_KEY} # <--- Added here
     depends_on:
       - redis
       - backend

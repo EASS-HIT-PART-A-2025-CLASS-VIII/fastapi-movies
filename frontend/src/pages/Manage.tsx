@@ -18,7 +18,7 @@ export const Manage: React.FC = () => {
         amount: parseFloat(amount),
         category,
         description,
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
       });
 
       setSuccess(true);
@@ -26,7 +26,7 @@ export const Manage: React.FC = () => {
       setDescription('');
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      alert("Failed to save transaction. Check if the backend is running.");
+      alert('Failed to save transaction. Check if the backend is running.');
     } finally {
       setLoading(false);
     }
@@ -83,25 +83,23 @@ export const Manage: React.FC = () => {
             onClick={handleSave}
             disabled={loading}
             className={`w-full h-12 rounded-xl mt-4 font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${
-              success ? "bg-[#2ea043] text-white" : "bg-[#238636] hover:bg-[#2ea043] text-white"
+              success ? 'bg-[#2ea043] text-white' : 'bg-[#238636] hover:bg-[#2ea043] text-white'
             }`}
           >
             {success ? (
-              <><CheckCircle2 size={18} /> Transaction Saved!</>
+              <>
+                <CheckCircle2 size={18} /> Transaction Saved!
+              </>
             ) : loading ? (
-              "Processing..."
+              'Processing...'
             ) : (
-              <><Send size={18} /> Save Transaction</>
+              <>
+                <Send size={18} /> Save Transaction
+              </>
             )}
           </button>
         </div>
       </div>
-
-
-
-
-
-
     </div>
   );
 };

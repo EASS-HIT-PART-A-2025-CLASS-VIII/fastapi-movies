@@ -16,10 +16,10 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
     { name: 'Reports', path: '/reports', icon: FileText },
   ];
 
-const handleLogout = () => {
-  localStorage.clear(); // Clears token
-  window.location.href = '/login'; // Full reload to clear app state
-};
+  const handleLogout = () => {
+    localStorage.clear(); // Clears token
+    window.location.href = '/login'; // Full reload to clear app state
+  };
 
   return (
     <div className="flex min-h-screen bg-[#0d1117] text-[#c9d1d9]">
@@ -37,9 +37,9 @@ const handleLogout = () => {
                 key={item.name}
                 to={item.path}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                  isActive 
-                  ? 'bg-[#238636] text-white shadow-lg' 
-                  : 'text-[#8b949e] hover:bg-[#21262d] hover:text-white'
+                  isActive
+                    ? 'bg-[#238636] text-white shadow-lg'
+                    : 'text-[#8b949e] hover:bg-[#21262d] hover:text-white'
                 }`}
               >
                 <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
@@ -61,9 +61,7 @@ const handleLogout = () => {
       </aside>
 
       <main className="flex-1 ml-64 p-10">
-        <div className="max-w-5xl mx-auto">
-          {children}
-        </div>
+        <div className="max-w-5xl mx-auto">{children}</div>
       </main>
     </div>
   );

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Cell, Pie, PieChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {ArrowUpRight, Hash, TrendingUp, Wallet} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { ArrowUpRight, Hash, TrendingUp, Wallet } from 'lucide-react';
 import apiClient from '../api/client';
 
 export const Dashboard: React.FC = () => {
@@ -8,20 +8,23 @@ export const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiClient.get('/transactions')
-      .then(res => setData(res.data))
-      .catch(err => console.error(err))
+    apiClient
+      .get('/transactions')
+      .then((res) => setData(res.data))
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, []);
 
   const total = data.reduce((acc, curr) => acc + curr.amount, 0);
   const avg = data.length > 0 ? total / data.length : 0;
 
-  const chartData = Object.values(data.reduce((acc: any, curr) => {
-    if (!acc[curr.category]) acc[curr.category] = { name: curr.category, value: 0 };
-    acc[curr.category].value += curr.amount;
-    return acc;
-  }, {}));
+  const chartData = Object.values(
+    data.reduce((acc: any, curr) => {
+      if (!acc[curr.category]) acc[curr.category] = { name: curr.category, value: 0 };
+      acc[curr.category].value += curr.amount;
+      return acc;
+    }, {})
+  );
 
   const COLORS = ['#58a6ff', '#238636', '#f85149', '#d29922', '#8b949e'];
 
@@ -36,9 +39,25 @@ export const Dashboard: React.FC = () => {
 
       {/* STATS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard title="Total Balance" value={`$${total.toFixed(2)}`} icon={<Wallet className="text-[#58a6ff]" />} color="blue" />
-        <StatCard title="Average Entry" value={`$${avg.toFixed(2)}`} icon={<TrendingUp className="text-[#238636]" />} color="green" />
-        <StatCard title="Total Logs" value={data.length.toString()} icon={<Hash className="text-[#d29922]" />} color="yellow" />
+        <StatCard
+          title="Total Balance"
+          value={`$${total.toFixed(2)}`}
+          icon={<Wallet className="text-[#58a6ff]" />}
+          color="blue"
+        />
+        <StatCard
+          title="Average Entry"
+          value={`$${avg.toFixed(2)}`}
+          icon={<TrendingUp className="text-[#238636]" />}
+          color="green"
+        />
+
+        <StatCard
+          title="Total Logs"
+          value={data.length.toString()}
+          icon={<Hash className="text-[#d29922]" />}
+          color="yellow"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -48,12 +67,24 @@ export const Dashboard: React.FC = () => {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={chartData} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                <Pie
+                  data={chartData}
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
                   {chartData.map((_, index) => (
                     <Cell key={index} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#0d1117', border: '1px solid #30363d', borderRadius: '8px' }} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#0d1117',
+                    border: '1px solid #30363d',
+                    borderRadius: '8px',
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -76,7 +107,9 @@ export const Dashboard: React.FC = () => {
                 {data.slice(0, 5).map((t) => (
                   <tr key={t.id} className="hover:bg-[#21262d] transition-colors">
                     <td className="px-6 py-4 text-white font-medium">{t.category}</td>
-                    <td className="px-6 py-4 text-right font-mono text-[#58a6ff]">${t.amount.toFixed(2)}</td>
+                    <td className="px-6 py-4 text-right font-mono text-[#58a6ff]">
+                      ${t.amount.toFixed(2)}
+                    </td>
                   </tr>
                 ))}
               </tbody>

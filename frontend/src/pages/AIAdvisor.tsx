@@ -14,11 +14,13 @@ export const AIAdvisor: React.FC = () => {
 
     try {
       const response = await apiClient.get('/ai/advice', {
-        params: { query }
+        params: { query },
       });
       setAdvice(response.data.advice);
     } catch (err) {
-      setAdvice("I'm having trouble connecting to my brain right now. Please try again in a moment.");
+      setAdvice(
+        "I'm having trouble connecting to my brain right now. Please try again in a moment."
+      );
     } finally {
       setLoading(false);
     }
@@ -31,7 +33,9 @@ export const AIAdvisor: React.FC = () => {
           <BrainCircuit className="text-[#238636]" size={32} />
         </div>
         <h1 className="text-3xl font-bold text-white">AI Financial Intelligence</h1>
-        <p className="text-[#8b949e] mt-2">Get personalized insights based on your spending patterns.</p>
+        <p className="text-[#8b949e] mt-2">
+          Get personalized insights based on your spending patterns.
+        </p>
       </header>
 
       <div className="bg-[#161b22] border border-[#30363d] rounded-2xl p-8 shadow-2xl">
@@ -53,14 +57,18 @@ export const AIAdvisor: React.FC = () => {
             {loading ? (
               <Loader2 className="animate-spin" size={20} />
             ) : (
-              <><Send size={18} /> Get Advice</>
+              <>
+                <Send size={18} /> Get Advice
+              </>
             )}
           </button>
         </div>
 
         {advice && (
           <div className="mt-8 p-6 bg-[#0d1117] border-l-4 border-[#238636] rounded-r-xl animate-in zoom-in-95 duration-300">
-            <h4 className="text-xs font-bold text-[#8b949e] uppercase tracking-widest mb-3">Advisor Insight</h4>
+            <h4 className="text-xs font-bold text-[#8b949e] uppercase tracking-widest mb-3">
+              Advisor Insight
+            </h4>
             <div className="text-[#e6edf3] leading-relaxed text-lg whitespace-pre-wrap">
               {advice}
             </div>
