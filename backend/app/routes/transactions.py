@@ -8,6 +8,7 @@ from app.services.transactions_service import TransactionService
 from app.core.deps import get_current_user
 from arq import create_pool
 from arq.connections import RedisSettings
+import os
 
 router = APIRouter(prefix="/transactions", tags=["Transactions"])
 
@@ -50,3 +51,10 @@ def delete_transaction(
     if not success:
         raise HTTPException(status_code=404, detail="Transaction not found")
     return {"message": "Transaction deleted"}
+
+@router.get("/report/list")
+def list_reports(current_user: str = Depends(get_current_user)):
+    path = "data"
+    if not os.path.exists(path):
+        return []
+    return [f for f in os.listdir(path) if f.endswith(".pdf")]
