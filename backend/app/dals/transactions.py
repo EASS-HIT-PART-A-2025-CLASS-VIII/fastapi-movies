@@ -10,8 +10,7 @@ class TransactionDal:
 
     def get_monthly_total(self, user_id: int, start_date: datetime) -> float:
         statement = select(func.sum(Transaction.amount)).where(
-            Transaction.user_id == user_id,
-            Transaction.date >= start_date
+            Transaction.user_id == user_id, Transaction.date >= start_date
         )
         result = self.session.exec(statement).first()
         return float(result) if result else 0.0
