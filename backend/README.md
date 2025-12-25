@@ -1,88 +1,99 @@
-# 🎬 FastAPI Movie API
+# 🧠 SpendWise Backend Intelligence
 
-A lightweight **CRUD backend** built with **FastAPI**, **SQLModel**, and **SQLite**.  
-It provides endpoints to create, list, update, and delete movies, either locally or in a Docker container.
+The core engine of the SpendWise platform, providing high-performance financial telemetry, AI-driven insights, and automated background reporting via **FastAPI**, **SQLModel**, and **Redis**.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Local Development Setup
 
-### Run locally
+To run the backend on your host machine without Docker, follow these steps to ensure a clean environment.
+
+### 1. Prerequisites
+
+- **Python 3.12+**
+- **Redis** (Must be running locally for the worker and AI advice endpoints)
+- **uv** (Highly recommended for fast dependency management)
+
+### 2. Environment Setup
+
+````bash
+# Create a virtual environment
+uv venv
+
+# Activate the virtual environment
+# On macOS/Linux:
+source .venv/bin/activate
+# On Windows:
+.venv\Scripts\activate
+
+# Install dependencies
+uv pip install -r requirements.txt
+
+
+### 3. Configuration
+Create a `.env` file in the `backend/` directory:
+
+```env
+JWT_SECRET_KEY=your_super_secret_key_here
+REDIS_URL=redis://localhost:6379/0
+DATABASE_URL=sqlite:///./app/data/database.db
+````
+
+### 4. Running the API
 
 ```bash
-uv venv
-source .venv/bin/activate
-uv pip install -r requirements.txt
 uv run uvicorn app.main:app --reload
 ```
 
-### Run with Docker
-
-```bash
-docker build -t fastapi-movies .
-docker run --name fastapi-movies-container -p 8000:8000 fastapi-movies
-```
-
-📍 Visit → [http://localhost:8000/movies](http://localhost:8000/movies)
+📍 Swagger Documentation: http://localhost:8000/docs
 
 ---
 
-## 🧩 API Endpoints
+## ⚙️ Background Worker
 
-| Method   | Path           | Description              |
-| -------- | -------------- | ------------------------ |
-| `GET`    | `/movies`      | Get all movies           |
-| `POST`   | `/movies`      | Add a new movie          |
-| `PUT`    | `/movies/{id}` | Update an existing movie |
-| `DELETE` | `/movies/{id}` | Delete a movie           |
-
-Example:
+SpendWise uses a worker to handle heavy tasks like PDF generation. In a local setup, you must run the worker in a separate terminal:
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/movies" \
-  -H "Content-Type: application/json" \
-  -d '{"title": "Inception", "director": "Christopher Nolan", "year": 2010, "rating": 8.8}'
+# Ensure venv is active
+export PYTHONPATH=.
+python -m app.worker
 ```
 
 ---
 
-## 🌱 CLI Commands
+## 🧪 Testing Suite
 
-Manage the database via Typer CLI:
+We use **pytest** to validate the financial logic and security layers.
 
-```bash
-uv run python -m app.cli <command>
-```
-
-| Command | Description                    |
-| ------- | ------------------------------ |
-| `seed`  | Seed DB from `data/movies.csv` |
-| `list`  | Display all movies             |
-| `reset` | Clear all movies from DB       |
-
----
-
-## 🧪 Tests
-
-Run the tests:
+**Run tests locally:**
 
 ```bash
 uv run pytest -v
 ```
 
-✅ Covers:
+**Run tests via Docker (if containers are up):**
 
-- Create (`POST /movies`)
-- Read (`GET /movies`)
-- Update (`PUT /movies/{id}`)
-- Delete (`DELETE /movies/{id}`)
+```bash
+docker compose exec backend python -m pytest -v
+```
 
 ---
 
-## 🧠 Tech Stack
+## 🏗 Backend Architecture
 
-- **FastAPI** – Web framework
-- **SQLModel** – ORM + Pydantic models
-- **Typer** – CLI utilities
-- **pytest** – Testing framework
-- **uv** – Dependency & environment manager
+- **app/main.py**: Application entry point and router definitions.
+- **app/models/**: SQLModel definitions for database schema and Pydantic validation.
+- **app/dals/**: Data Access Layer for clean database interactions.
+- **app/core/**: Security, JWT logic, and global configurations.
+- **app/services/**: Complex business logic (AI prompt engineering, calculation engines).
+- **app/worker.py**: Background task definitions for Redis.
+
+---
+
+## 🛠 Tech Stack
+
+- **FastAPI**: Modern web framework.
+- **SQLModel**: Combined SQLAlchemy and Pydantic power.
+- **Redis**: High-speed message brokerage.
+- **uv**: Ultra-fast Python package management.
+- **Pytest**: Industry-standard test framework.
