@@ -11,7 +11,6 @@ A modern, high-performance financial dashboard built with **React**, **TypeScrip
 Ensure you have **Node.js (v18+)** and **npm** or **bun** installed.
 
 ```bash
-# Install dependencies
 npm install
 ```
 
@@ -47,10 +46,8 @@ npm run dev
 ## 🏗 Project Structure
 
 - **src/components/**: Reusable UI components (Charts, Tables, Modals).
-- **src/hooks/**: Custom React hooks for API data fetching and state management.
-- **src/services/**: API client configurations (Axios/Fetch) to communicate with the FastAPI backend.
-- **src/pages/**: Main view components (Dashboard, Login, Analytics).
-- **src/store/**: Global state management for user authentication and session persistence.
+- **src/context/**: Contexts to handle data globally in the app.
+- **src/pages/**: Main view components (Dashboard, Login, Register).
 
 ---
 
@@ -64,13 +61,3 @@ npm run dev
 - **Lucide React**: Clean and consistent iconography.
 
 ---
-
-## 🧪 Production Build
-
-To build the application for production deployment:
-
-```bash
-npm run build
-```
-
-The optimized output will be located in the `dist/` folder, ready to be served by Nginx or hosted on a CDN.

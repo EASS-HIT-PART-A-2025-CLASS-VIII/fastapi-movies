@@ -31,12 +31,11 @@ uv pip install -r requirements.txt
 
 
 ### 3. Configuration
-Create a `.env` file in the `backend/` directory:
+Create a `.env` file in the project root directory:
 
 ```env
 JWT_SECRET_KEY=your_super_secret_key_here
-REDIS_URL=redis://localhost:6379/0
-DATABASE_URL=sqlite:///./app/data/database.db
+OPEN_AI_API_KEY=your_openai_api_key_here
 ````
 
 ### 4. Running the API
@@ -81,11 +80,11 @@ docker compose exec backend python -m pytest -v
 
 ## 🏗 Backend Architecture
 
-- **app/main.py**: Application entry point and router definitions.
-- **app/models/**: SQLModel definitions for database schema and Pydantic validation.
-- **app/dals/**: Data Access Layer for clean database interactions.
-- **app/core/**: Security, JWT logic, and global configurations.
+- **app/routes.py**: Route handlers for API endpoints.
 - **app/services/**: Complex business logic (AI prompt engineering, calculation engines).
+- **app/dals/**: Data Access Layer for clean database interactions.
+- **app/models/**: SQLModel definitions for database schema and Pydantic validation.
+- **app/core/**: Security, JWT logic, and global configurations.
 - **app/worker.py**: Background task definitions for Redis.
 
 ---
