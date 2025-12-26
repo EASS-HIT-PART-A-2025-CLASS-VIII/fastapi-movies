@@ -5,7 +5,7 @@ import { Login } from './pages/Login';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AIAdvisor } from './pages/AIAdvisor.tsx';
 import { Reports } from './pages/Reports.tsx';
-import { Dashboard } from './pages/Dashboard.tsx';
+import { Dashboard } from './pages/Dashboard/Dashboard.tsx';
 import { Register } from './pages/Register.tsx';
 import { AIProvider } from './context/AIContext.tsx';
 

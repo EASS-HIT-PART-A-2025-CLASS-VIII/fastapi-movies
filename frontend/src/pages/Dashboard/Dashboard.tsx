@@ -12,16 +12,17 @@ import {
   YAxis,
 } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../api/client';
+import apiClient from '../../api/client.ts';
+import { type TransactionDetailsStats } from './types.ts';
 
 export const Dashboard: React.FC = () => {
-  const [stats, setStats] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<TransactionDetailsStats | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     apiClient
-      .get('/transactions/stats/detailed')
+      .get<TransactionDetailsStats>('/transactions/stats/detailed')
       .then((res) => setStats(res.data))
       .finally(() => setLoading(false));
   }, []);
@@ -79,22 +80,16 @@ export const Dashboard: React.FC = () => {
         <MetricCard
           label="Monthly Burn"
           value={`$${stats.monthly_burn.toLocaleString()}`}
-          trend={`${stats.trend_pct}%`}
-          isUp={stats.trend_pct > 0}
           icon={<Zap size={20} />}
         />
         <MetricCard
           label="Daily Velocity"
           value={`$${stats.daily_avg.toFixed(2)}`}
-          trend="Stable"
-          isUp={null}
           icon={<Activity size={20} />}
         />
         <MetricCard
           label="Efficiency"
           value={`${stats.efficiency_score}/100`}
-          trend="Optimized"
-          isUp={null}
           icon={<TrendingUp size={20} />}
         />
       </div>
@@ -108,13 +103,13 @@ export const Dashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={stats.categories}
+                  data={(stats as any).categories}
                   innerRadius={70}
                   outerRadius={90}
                   paddingAngle={8}
                   dataKey="value"
                 >
-                  {stats.categories.map((_: any, i: number) => (
+                  {(stats as any).categories.map((_: any, i: number) => (
                     <Cell
                       key={i}
                       fill={['#58a6ff', '#238636', '#f85149', '#d29922'][i % 4]}
@@ -168,21 +163,18 @@ export const Dashboard: React.FC = () => {
   );
 };
 
-const MetricCard = ({ label, value, trend, isUp, icon }: any) => (
+interface MetricCardProps {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
+}
+
+const MetricCard: React.FC<MetricCardProps> = ({ label, value, icon }) => (
   <div className="bg-[#161b22] border border-[#30363d] p-8 rounded-[2rem] group hover:border-[#444c56] transition-all shadow-xl">
     <div className="flex justify-between items-start mb-6">
       <div className="p-3 bg-[#0d1117] rounded-2xl text-[#58a6ff] border border-[#30363d] group-hover:bg-[#58a6ff] group-hover:text-white transition-all">
         {icon}
       </div>
-      {isUp !== null && (
-        <span
-          className={`text-[10px] font-black px-2 py-1 rounded-lg uppercase tracking-tighter ${
-            isUp ? 'bg-red-500/10 text-red-500' : 'bg-green-500/10 text-green-500'
-          }`}
-        >
-          {trend}
-        </span>
-      )}
     </div>
     <p className="text-[10px] font-black text-[#8b949e] uppercase tracking-[0.2em]">{label}</p>
     <h2 className="text-4xl font-black text-white mt-1 tracking-tighter">{value}</h2>

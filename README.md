@@ -8,6 +8,8 @@ Financial telemetry and AI-driven analysis backend powered by **FastAPI**, **SQL
 
 ### Docker Compose
 
+- make sure to create a .env in the project root with the necessary environment variables as specified in the .env.example file.
+
 ```bash
 docker compose up --build
 ```
@@ -24,6 +26,24 @@ docker compose exec backend python -m pytest -v
 ```
 
 ---
+## 🛠️ Database Management (CLI)
+
+SpendWise includes a powerful Command Line Interface to manage your financial telemetry. You can execute these commands directly within the `backend` container.
+
+#### **Commands**
+
+* **Seed**: Populates the database with 50 sample transactions from a CSV file, these transactions are set for the first user registered.
+  ```bash
+  docker compose exec backend python -m app.cli seed
+  ```
+* **List**: Displays all financial logs currently stored in your ledger.
+  ```bash
+  docker compose exec backend python -m app.cli list-transactions
+  ```
+* **Reset**: Wipes all transaction data while preserving the database schema.
+  ```bash
+  docker compose exec backend python -m app.cli reset
+  ```
 
 ## 🔐 Key Features
 

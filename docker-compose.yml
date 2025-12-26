@@ -17,6 +17,7 @@ services:
     environment:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
+      - DATABASE_URL=sqlite:////app/app/data/database.db
     depends_on:
       - redis
     volumes:
@@ -32,6 +33,7 @@ services:
     environment:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
+      - DATABASE_URL=sqlite:////app/app/data/database.db
     env_file: .env
     depends_on:
       - redis
