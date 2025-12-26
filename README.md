@@ -1,6 +1,7 @@
 # 🧠 SpendWise Intelligence
 
-AI-driven financial analysis platform built with a Vite-based frontend and a robust FastAPI backend, utilizing Redis for real-time telemetry and SQLModel for efficient data management.
+Full-stack financial intelligence: A multi-service ecosystem (EX1–EX3) powered by FastAPI, Vite, SQLModel, and Redis, featuring AI-driven insights and orchestrated via Docker Compose.
+
 
 ---
 
