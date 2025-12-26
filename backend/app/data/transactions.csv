@@ -1,0 +1,51 @@
+amount,category,description,date,user_id
+42.50,Food,Dinner at Mario's,2025-12-01T19:30:00,1
+15.00,Transport,Uber to work,2025-12-01T08:15:00,1
+120.00,Utilities,Electricity Bill,2025-12-02T10:00:00,1
+8.50,Groceries,Milk and Bread,2025-12-02T17:45:00,1
+55.00,Entertainment,Movie Tickets,2025-12-03T20:00:00,1
+25.30,Shopping,New T-shirt,2025-12-04T14:20:00,1
+12.00,Food,Lunch Meal Deal,2025-12-04T12:30:00,1
+300.00,Healthcare,Dental Checkup,2025-12-05T09:00:00,1
+45.00,Transport,Fuel Refill,2025-12-05T18:10:00,1
+15.99,Subscriptions,Netflix,2025-12-06T00:00:00,1
+62.40,Groceries,Weekly Shop,2025-12-07T11:30:00,1
+22.00,Food,Coffee and Pastry,2025-12-08T08:45:00,1
+10.00,Transport,Bus Pass,2025-12-08T07:50:00,1
+85.00,Utilities,Water Bill,2025-12-09T10:00:00,1
+200.00,Shopping,Monitor for Home Office,2025-12-10T15:00:00,1
+35.50,Food,Takeout Pizza,2025-12-10T20:15:00,1
+14.00,Transport,Parking Fees,2025-12-11T13:00:00,1
+5.50,Groceries,Apples,2025-12-11T17:00:00,1
+150.00,Entertainment,Concert Tickets,2025-12-12T19:00:00,1
+40.00,Healthcare,Pharmacy - Medicine,2025-12-13T11:00:00,1
+28.70,Food,Burger Joint,2025-12-14T13:30:00,1
+18.00,Transport,Train Ticket,2025-12-14T09:00:00,1
+75.00,Groceries,Organic Supplies,2025-12-15T16:20:00,1
+12.99,Subscriptions,Spotify,2025-12-16T00:00:00,1
+50.00,Shopping,Birthday Gift,2025-12-17T11:00:00,1
+95.00,Utilities,Internet Service,2025-12-18T10:00:00,1
+33.20,Food,Sushi Lunch,2025-12-19T12:45:00,1
+20.00,Transport,Taxi Service,2025-12-19T22:30:00,1
+110.00,Shopping,Running Shoes,2025-12-20T14:00:00,1
+12.50,Groceries,Cleaning Supplies,2025-12-20T10:00:00,1
+45.00,Entertainment,Bowling with friends,2025-12-21T18:30:00,1
+25.00,Food,Breakfast Cafe,2025-12-22T09:15:00,1
+15.00,Transport,City Bike Rental,2025-12-22T17:00:00,1
+60.00,Healthcare,Gym Membership,2025-12-23T07:00:00,1
+88.40,Groceries,Meat and Vegetables,2025-12-23T19:00:00,1
+150.00,Utilities,Gas Bill,2025-12-24T10:00:00,1
+20.00,Food,Coffee shop,2025-12-24T15:00:00,1
+50.00,Entertainment,Video Game,2025-12-25T11:00:00,1
+100.00,Shopping,Winter Coat,2025-12-25T14:00:00,1
+12.00,Transport,Electric Scooter,2025-12-25T16:00:00,1
+38.50,Food,Chinese Food,2025-12-26T19:45:00,1
+9.99,Subscriptions,Cloud Storage,2025-12-26T00:00:00,1
+54.20,Groceries,Holiday Snacks,2025-12-27T12:00:00,1
+40.00,Transport,Petrol station,2025-12-27T15:30:00,1
+18.50,Food,Sandwich shop,2025-12-28T12:15:00,1
+70.00,Entertainment,Museum Visit,2025-12-28T14:00:00,1
+25.00,Shopping,Books,2025-12-29T11:00:00,1
+13.40,Groceries,Toiletries,2025-12-29T18:00:00,1
+65.00,Food,Fine Dining,2025-12-30T20:00:00,1
+22.00,Transport,Airport Shuttle,2025-12-31T05:00:00,1
