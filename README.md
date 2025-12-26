@@ -10,23 +10,18 @@ Full-stack financial intelligence: A multi-service ecosystem (EX1–EX3) powered
 ### Docker Compose
 
 - make sure to create a .env in the project root with the necessary environment variables as specified in the .env.example file.
+- VITE_API_URL should be http://localhost:8000
 
 ```bash
 docker compose up --build
 ```
 
----
-
-## 🧪 Testing
-
-Run the containers and
-execute the test suite within the container:
-
-```bash
-docker compose exec backend python -m pytest -v
-```
+- After successfully running the containers the UI will be accessible at http://localhost:5173
+- Now register a user via the UI to get started.
+- recommended to seed the database now according to the instructions below.
 
 ---
+
 ## 🛠️ Database Management (CLI)
 
 SpendWise includes a powerful Command Line Interface to manage your financial telemetry. You can execute these commands directly within the `backend` container.
@@ -45,6 +40,17 @@ SpendWise includes a powerful Command Line Interface to manage your financial te
   ```bash
   docker compose exec backend python -m app.cli reset
   ```
+
+## 🧪 Testing
+
+Run the containers and
+execute the test suite within the container:
+
+```bash
+docker compose exec backend python -m pytest -v
+```
+
+---
 
 ## 🔐 Key Features
 
